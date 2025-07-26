@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trinity B1 Speaking Practice</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f1f1f1;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    select, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+
+    .questionBox {
+      background: white;
+      padding: 15px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .buttonRow {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .hiddenText {
+      display: none;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+
+  <!-- ✅ jQuery CDN -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+  <h2>🎤 Trinity B1 Speaking Practice</h2>
+
+  <label for="topicSelect">Select Topic:</label>
+  <select id="topicSelect">
+    <option value="">-- Choose Topic --</option>
+    <option value="intro">Intro</option>
+    <option value="family">Family</option>
+  </select>
+
+  <label for="voiceSelect">Select Voice:</label>
+  <select id="voiceSelect">
+    <option value="UK Male">UK Male</option>
+    <option value="UK Female">UK Female</option>
+  </select>
+
+<label for="speedSelect">Select Speaking Speed:</label>
+<select id="speedSelect">
+  <option value="0.1">0.1</option>
+  <option value="0.2">0.2</option>
+  <option value="0.3">0.3</option>
+  <option value="0.4">0.4</option>
+  <option value="0.5">0.5</option>
+  <option value="0.6">0.6</option>
+  <option value="0.7">0.7</option>
+  <option value="0.8">0.8</option>
+  <option value="0.9">0.9</option>  
+  <option value="1.0" selected>1.0</option>  
+</select>
+
+  <div id="questionsContainer"></div>
+
+  <script>
+    const questionData = {
+      intro: [
+        "Hello, good morning",
+        "My name is M. What’s your name?",
+        "Are you ready to begin your speaking test",
+        "How are you today?",
+        "Where do you come from",
+        "How long it has been you’ve lived in the UK",
+        "What do you like about living here",
+        "How did you get to the examination centre today",
+        "Where do you live in the UK",
+        "It’s grade 5 exam. We are going to start with the topic. What is your topic title?",
+        "Thank you. What are the five topic points?"
+      ],
+      family: [
+        "Who is in your family?",
+        "Do you have any kids",
+        "What are your sons like?",
+        "What is your granddaughter's name?",
+        "How old is your granddaughter?",
+        "What grade is your granddaughter in?",
+        "How many members are there in your family?",
+        "Do you all live together?",
+        "What are the things that your sons don’t like?",
+        "Where did you go on your last family vacation?"
+      ]
+    };
+
+function speakText(text) {
+  const voiceType = $("#voiceSelect").val();
+  const speed = parseFloat($("#speedSelect").val()); // Get selected speed
+  const utterance = new SpeechSynthesisUtterance(text);
+  const voices = speechSynthesis.getVoices();
+
+  utterance.voice = voices.find(v =>
+    (voiceType === "UK Male" && v.name.includes("Male") && v.lang.includes("en-GB")) ||
+    (voiceType === "UK Female" && v.name.includes("Female") && v.lang.includes("en-GB"))
+  ) || voices[0];
+
+  utterance.rate = speed; // Set speaking speed
+  speechSynthesis.speak(utterance);
+}
+
+
+    window.speechSynthesis.onvoiceschanged = () => {
+      speechSynthesis.getVoices();
+    };
+
+    $("#topicSelect").change(function () {
+      const selectedTopic = $(this).val();
+      const container = $("#questionsContainer");
+      container.empty();
+
+      if (questionData[selectedTopic]) {
+        questionData[selectedTopic].forEach(function (q) {
+          const box = $("<div>").addClass("questionBox");
+          const btnRow = $("<div>").addClass("buttonRow");
+          const hiddenText = $("<div>").addClass("hiddenText").text(q);
+
+          const playBtn = $("<button>").text("🔊 Play").click(function () {
+            speakText(q);
+          });
+
+const showBtn = $("<button>").text("👁️ Show").click(function () {
+  hiddenText.toggle();
+  const isVisible = hiddenText.is(":visible");
+  $(this).text(isVisible ? "🙈 Hide" : "👁️ Show");
+});
+
+          btnRow.append(playBtn, showBtn);
+          box.append(btnRow, hiddenText);
+          container.append(box);
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>
