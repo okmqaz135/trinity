@@ -5,3 +5,4 @@ housework
 shoppingCentre
 job
 festival
+recentPersonalExperiences
