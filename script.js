@@ -1,51 +1,30 @@
-(function () {
-  const params = new URLSearchParams(window.location.search);
-  const v = params.get('v');
+let availableVoices = [];
 
-  if (v) {
-    const now = Date.now();
-    const vTime = parseInt(v, 10);
-    const timeDiff = now - vTime;
+function populateVoiceOptions() {
+  availableVoices = speechSynthesis.getVoices().filter(v => v.lang.startsWith("en"));
 
-    // If timestamp is older than 5 seconds, reload
-    if (isNaN(vTime) || timeDiff > 5000) {
-      const url = new URL(window.location.href);
-      url.searchParams.set('v', now);
-      window.location.replace(url.toString());
-    }
-  } else {
-    // If no timestamp, redirect with one
-    const url = new URL(window.location.href);
-    url.searchParams.set('v', Date.now());
-    window.location.replace(url.toString());
-  }
-})();
+  const voiceSelect = $("#voiceSelect");
+  voiceSelect.empty();
 
+  availableVoices.forEach((voice, index) => {
+    const label = `${voice.name} (${voice.lang})`;
+    voiceSelect.append(`<option value="${index}">${label}</option>`);
+  });
+}
 
-// Load voice options when available
-window.speechSynthesis.onvoiceschanged = () => {
-  speechSynthesis.getVoices();
-};
-
-// Speak function
 function speakText(text) {
-  const voiceType = $("#voiceSelect").val();
+  const voiceIndex = parseInt($("#voiceSelect").val());
   const speed = parseFloat($("#speedSelect").val());
   const utterance = new SpeechSynthesisUtterance(text);
-  const voices = speechSynthesis.getVoices();
 
-  utterance.voice = voices.find(v =>
-    (voiceType === "UK Male" && v.name.includes("Male") && v.lang.includes("en-GB")) ||
-    (voiceType === "UK Female" && v.name.includes("Female") && v.lang.includes("en-GB"))
-  ) || voices[0];
-
+  utterance.voice = availableVoices[voiceIndex] || null;
   utterance.rate = speed;
+
   speechSynthesis.speak(utterance);
 }
 
-// Load topics from topics.txt
 function loadTopics() {
-  $.get(`topics.txt?v=${Date.now()}`, function(data) {	
+  $.get(`topics.txt?v=${Date.now()}`, function(data) {  
     const topics = data.split("\n").map(t => t.trim()).filter(Boolean);
     topics.forEach(topic => {
       $("#topicSelect").append(`<option value="${topic}">${topic.charAt(0).toUpperCase() + topic.slice(1)}</option>`);
@@ -53,7 +32,6 @@ function loadTopics() {
   });
 }
 
-// Load questions for selected topic
 function loadQuestions(topic) {
   $.get(`${topic}.txt?v=${Date.now()}`, function(data) {
     const questions = data.split("\n").map(q => q.trim()).filter(Boolean);
@@ -82,7 +60,36 @@ function loadQuestions(topic) {
   });
 }
 
+// Reload page if timestamp is stale
+(function () {
+  const params = new URLSearchParams(window.location.search);
+  const v = params.get('v');
+
+  if (v) {
+    const now = Date.now();
+    const vTime = parseInt(v, 10);
+    const timeDiff = now - vTime;
+
+    if (isNaN(vTime) || timeDiff > 5000) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('v', now);
+      window.location.replace(url.toString());
+    }
+  } else {
+    const url = new URL(window.location.href);
+    url.searchParams.set('v', Date.now());
+    window.location.replace(url.toString());
+  }
+})();
+
 $(document).ready(function () {
+  // Wait for voices to be available
+  if (speechSynthesis.onvoiceschanged !== undefined) {
+    speechSynthesis.onvoiceschanged = populateVoiceOptions;
+  } else {
+    setTimeout(populateVoiceOptions, 500);
+  }
+
   loadTopics();
 
   $("#topicSelect").change(function () {
