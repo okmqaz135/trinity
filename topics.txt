@@ -7,3 +7,6 @@ job
 festival
 recentPersonalExperiences
 specialOccasion
+Music
+Means Of transport
+Entertainment
