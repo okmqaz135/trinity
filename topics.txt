@@ -3,5 +3,3 @@ family
 hobbies
 housework
 shoppingCentre
-job
-Festival
