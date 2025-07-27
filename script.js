@@ -45,7 +45,7 @@ function speakText(text) {
 
 // Load topics from topics.txt
 function loadTopics() {
-  $.get("topics.txt", function(data) {
+  $.get(`topics.txt?v=${Date.now()}`, function(data) {	
     const topics = data.split("\n").map(t => t.trim()).filter(Boolean);
     topics.forEach(topic => {
       $("#topicSelect").append(`<option value="${topic}">${topic.charAt(0).toUpperCase() + topic.slice(1)}</option>`);
@@ -55,7 +55,7 @@ function loadTopics() {
 
 // Load questions for selected topic
 function loadQuestions(topic) {
-  $.get(`${topic}.txt`, function(data) {
+  $.get(`${topic}.txt?v=${Date.now()}`, function(data) {
     const questions = data.split("\n").map(q => q.trim()).filter(Boolean);
     const container = $("#questionsContainer");
     container.empty();
