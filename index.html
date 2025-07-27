@@ -44,8 +44,6 @@
       color: #333;
     }
   </style>
-
-  <!-- ✅ jQuery CDN -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
@@ -55,12 +53,6 @@
   <label for="topicSelect">Select Topic:</label>
   <select id="topicSelect">
     <option value="">-- Choose Topic --</option>
-    <option value="intro">Intro</option>
-    <option value="family">Family</option>
-    <option value="hobbies">Hobbies</option>
-    <option value="housework">Housework</option>
-    <option value="shoppingCentre">Shopping Centre</option>
-    <option value="job">Job</option>
   </select>
 
   <label for="voiceSelect">Select Voice:</label>
@@ -69,176 +61,57 @@
     <option value="UK Female">UK Female</option>
   </select>
 
-<label for="speedSelect">Select Speaking Speed:</label>
-<select id="speedSelect">
-  <option value="0.1">0.1</option>
-  <option value="0.2">0.2</option>
-  <option value="0.3">0.3</option>
-  <option value="0.4">0.4</option>
-  <option value="0.5">0.5</option>
-  <option value="0.6">0.6</option>
-  <option value="0.7">0.7</option>
-  <option value="0.8">0.8</option>
-  <option value="0.9">0.9</option>  
-  <option value="1.0" selected>1.0</option>  
-</select>
+  <label for="speedSelect">Select Speaking Speed:</label>
+  <select id="speedSelect">
+    <option value="0.5">0.5</option>
+    <option value="0.8">0.8</option>
+    <option value="1.0" selected>1.0</option>
+    <option value="1.2">1.2</option>
+    <option value="1.5">1.5</option>
+  </select>
 
   <div id="questionsContainer"></div>
 
   <script>
-    const questionData = {
-      intro: [
-        "Hello, good morning",
-        "My name is M. What’s your name?",
-        "Are you ready to begin your speaking test",
-        "How are you today?",
-        "Where do you come from",
-        "How long it has been you’ve lived in the UK",
-        "What do you like about living here",
-        "How did you get to the examination centre today",
-        "Where do you live in the UK",
-        "It’s grade 5 exam. We are going to start with the topic. What is your topic title?",
-        "Thank you. What are the five topic points?"
-      ],
-      family: [
-		"Who is in your family?",
-		"Do you have any kids?",
-		"What are your sons like?",
-		"What is your granddaughter's name?",
-		"How old is your granddaughter?",
-		"What grade is your granddaughter in?",
-		"How many members are there in your family?",
-		"Do you all live together?",
-		"What are the things that your sons don’t like?",
-		"Where did you go on your last family vacation?",
-		"What do you like to do with your family?",
-		"What is your favorite family memory?",
-		"What does your family usually do on weekends?",
-		"What is your daughter-in-law like?",
-		"Do you like spending time with your family? Why?",
-		"Do you celebrate birthdays with your family?",
-		"Do you go on holidays with your family?",
-		"Could you please tell me something about your family?",
-		"What is your favorite thing to do with your family?",
-		"Have you ever traveled with your family?"
-      ],
-      hobbies: [
-		"What hobbies do you enjoy?",
-		"How often do you do your hobbies?",
-		"Why do you enjoy those hobbies?",
-		"What hobby do you do most often?",
-		"Did you have different hobbies when you were younger?",
-		"What hobby would you like to try next?",
-		"What hobby helps you relax?",
-		"Do you do hobbies alone or with others?",
-		"What hobby do you enjoy doing with your family?",
-		"What hobby do you spend the most money on?",
-		"What hobby is most important to you?",
-		"What hobby would you recommend to others?",
-		"What hobby did you do last weekend?",
-		"How often do you listen to music?",
-		"How do your hobbies help you in your daily life?",
-		"What's your favourite hobby to do with friends?",
-		"What hobbies are popular in your country?",
-		"Have you ever tried a new hobby?",
-		"Have you recently started a new hobby?"
-
-      ],
-      housework: [
-		"What housework do you usually do?",
-		"How often do you do housework?",
-		"Do you enjoy doing housework?",
-		"What housework do you find easy?",
-		"What housework do you find difficult?",
-		"Do you share housework with your family?",
-		"What housework do you do most often?",
-		"What housework do you dislike doing?",
-		"How long do you spend doing housework each day?",
-		"Who does most of the housework in your home?",
-		"What housework do you do in the morning?",
-		"What housework do you do in the evening?",
-		"Do you use any tools or machines for housework?",
-		"What housework do you do on weekends?",
-		"What housework do you do every day?",
-		"What housework do you do once a week?",
-		"What housework do you do once a month?",
-		"Do you prefer cleaning or cooking?",
-		"Do you listen to music while doing housework?",
-		"How do you feel after finishing housework?"
-      ],
-      shoppingCentre: [
-		"What is the name of your favourite shopping centre?",
-		"Where is your favourite shopping centre located?",
-		"How often do you visit your favourite shopping centre?",
-		"Why do you like this shopping centre?",
-		"Do you go to this shopping centre alone or with others?",
-		"What do you usually buy when you visit this shopping centre?",
-		"Are there any restaurants or cafes in the shopping centre?",
-		"Is the shopping centre big or small?",
-		"How do you get to the shopping centre?",
-		"Do you think the shopping centre is expensive or affordable?",
-		"What was the last thing you bought at this shopping centre?",
-		"Do you prefer shopping in this shopping centre or online?",
-		"What do you usually do when you visit the shopping centre?",
-		"What do you like about the design of the shopping centre?",
-		"How long do you usually spend at the shopping centre?",
-		"Do you think the shopping centre is crowded or quiet?",
-		"Do you think the shopping centre is clean and well-maintained?",
-		"Have you ever had a problem at the shopping centre?"
-      ],
-      job: [
-        "What is your job?",
-		"Where do you work?",
-		"How long have you been doing this job?",
-		"Why did you choose this job?",
-		"What do you like about your job?",
-		"What do you dislike about your job?",
-		"What are your main responsibilities at work?",
-		"Do you work alone or with a team?",
-		"What time do you start and finish work?",
-		"How do you get to work?",
-		"Do you think your job is difficult or easy?",
-		"What skills do you need for your job?",
-		"Do you enjoy working with your colleagues?",
-		"How did you get your job?",
-		"Do you need any qualifications for your job?",
-		"What do you usually do on a typical day at work?",
-		"Do you think your job is stressful?",
-		"What do you do during your breaks at work?",
-		"Do you have to wear a uniform for your job?",
-		"Do you work full-time or part-time?",
-		"Have you ever had a different job before this one?",
-		"What do you do after work?"
-      ]
-    };
-
-function speakText(text) {
-  const voiceType = $("#voiceSelect").val();
-  const speed = parseFloat($("#speedSelect").val()); // Get selected speed
-  const utterance = new SpeechSynthesisUtterance(text);
-  const voices = speechSynthesis.getVoices();
-
-  utterance.voice = voices.find(v =>
-    (voiceType === "UK Male" && v.name.includes("Male") && v.lang.includes("en-GB")) ||
-    (voiceType === "UK Female" && v.name.includes("Female") && v.lang.includes("en-GB"))
-  ) || voices[0];
-
-  utterance.rate = speed; // Set speaking speed
-  speechSynthesis.speak(utterance);
-}
-
-
+    // Load voice options when available
     window.speechSynthesis.onvoiceschanged = () => {
       speechSynthesis.getVoices();
     };
 
-    $("#topicSelect").change(function () {
-      const selectedTopic = $(this).val();
-      const container = $("#questionsContainer");
-      container.empty();
+    // Speak function
+    function speakText(text) {
+      const voiceType = $("#voiceSelect").val();
+      const speed = parseFloat($("#speedSelect").val());
+      const utterance = new SpeechSynthesisUtterance(text);
+      const voices = speechSynthesis.getVoices();
 
-      if (questionData[selectedTopic]) {
-        questionData[selectedTopic].forEach(function (q) {
+      utterance.voice = voices.find(v =>
+        (voiceType === "UK Male" && v.name.includes("Male") && v.lang.includes("en-GB")) ||
+        (voiceType === "UK Female" && v.name.includes("Female") && v.lang.includes("en-GB"))
+      ) || voices[0];
+
+      utterance.rate = speed;
+      speechSynthesis.speak(utterance);
+    }
+
+    // Load topics from topics.txt
+    function loadTopics() {
+      $.get("topics.txt", function(data) {
+        const topics = data.split("\n").map(t => t.trim()).filter(Boolean);
+        topics.forEach(topic => {
+          $("#topicSelect").append(`<option value="${topic}">${topic.charAt(0).toUpperCase() + topic.slice(1)}</option>`);
+        });
+      });
+    }
+
+    // Load questions for selected topic
+    function loadQuestions(topic) {
+      $.get(`${topic}.txt`, function(data) {
+        const questions = data.split("\n").map(q => q.trim()).filter(Boolean);
+        const container = $("#questionsContainer");
+        container.empty();
+
+        questions.forEach(function (q) {
           const box = $("<div>").addClass("questionBox");
           const btnRow = $("<div>").addClass("buttonRow");
           const hiddenText = $("<div>").addClass("hiddenText").text(q);
@@ -247,17 +120,28 @@ function speakText(text) {
             speakText(q);
           });
 
-const showBtn = $("<button>").text("👁️ Show").click(function () {
-  hiddenText.toggle();
-  const isVisible = hiddenText.is(":visible");
-  $(this).text(isVisible ? "🙈 Hide" : "👁️ Show");
-});
+          const showBtn = $("<button>").text("👁️ Show").click(function () {
+            hiddenText.toggle();
+            const isVisible = hiddenText.is(":visible");
+            $(this).text(isVisible ? "🙈 Hide" : "👁️ Show");
+          });
 
           btnRow.append(playBtn, showBtn);
           box.append(btnRow, hiddenText);
           container.append(box);
         });
-      }
+      });
+    }
+
+    $(document).ready(function () {
+      loadTopics();
+
+      $("#topicSelect").change(function () {
+        const selectedTopic = $(this).val();
+        if (selectedTopic) {
+          loadQuestions(selectedTopic);
+        }
+      });
     });
   </script>
 

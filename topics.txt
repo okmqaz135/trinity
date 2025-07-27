@@ -1,0 +1,6 @@
+intro
+family
+hobbies
+housework
+shoppingCentre
+job
