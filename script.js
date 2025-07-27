@@ -43,9 +43,15 @@ function loadQuestions(topic) {
       const btnRow = $("<div>").addClass("buttonRow");
       const hiddenText = $("<div>").addClass("hiddenText").text(q);
 
-      const playBtn = $("<button>").text("🔊 Play").click(function () {
-        speakText(q);
-      });
+	const playBtn = $("<button>").text("🔊 Play").click(function () {
+	  speakText(q);
+
+	  // Remove highlight from all Play buttons
+	  $(".buttonRow button:contains('🔊 Play')").removeClass("playHighlight");
+
+	  // Highlight the clicked button
+	  $(this).addClass("playHighlight");
+	});
 
       const showBtn = $("<button>").text("👁️ Show").click(function () {
         hiddenText.toggle();
