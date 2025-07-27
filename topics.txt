@@ -6,3 +6,4 @@ shoppingCentre
 job
 festival
 recentPersonalExperiences
+specialOccasion
