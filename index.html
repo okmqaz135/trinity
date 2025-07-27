@@ -52,6 +52,27 @@
 	  transition: background-color 0.3s ease;
 	}
 	
+#scrollTopBtn {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 99;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0;
+  font-size: 16px;
+  cursor: pointer;
+  margin:0;
+  
+}
+
+#scrollTopBtn:hover {
+  background-color: #0056b3;
+}
+
+	
+	
   </style>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -87,6 +108,7 @@
   document.body.appendChild(script);
 	</script>
 
+<button id="scrollTopBtn" title="Go to top">↑</button>
 
 </body>
 </html>

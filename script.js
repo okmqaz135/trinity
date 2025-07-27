@@ -105,3 +105,11 @@ $(document).ready(function () {
     }
   });
 });
+
+$(document).ready(function () {
+  // Scroll to top smoothly
+  $("#scrollTopBtn").click(function () {
+    $("html, body").animate({ scrollTop: 0 }, 500);
+    return false;
+  });
+});
